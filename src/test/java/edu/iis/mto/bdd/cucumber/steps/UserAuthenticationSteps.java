@@ -7,7 +7,9 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import edu.iis.mto.bdd.cucumber.pages.HomePage;
 import edu.iis.mto.bdd.cucumber.pages.LoginPage;
+import edu.iis.mto.bdd.cucumber.workflowsteps.AuthenticationWorkFlowSteps;
 import edu.iis.mto.bdd.model.FrequentFlyerMember;
+import net.thucydides.core.annotations.Steps;
 import org.apache.commons.logging.Log;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -18,8 +20,11 @@ import static org.junit.Assert.assertThat;
 
 public class UserAuthenticationSteps {
 	private WebDriver driver ;
-    LoginPage loginPage;
-    HomePage homePage;
+   LoginPage loginPage;
+   HomePage homePage;
+
+    @Steps
+    AuthenticationWorkFlowSteps authenticationWorkFlowSteps;
 	
 	@Before
 	public void init(){
@@ -35,14 +40,13 @@ public class UserAuthenticationSteps {
 //    	driver.findElement(By.name("email")).sendKeys(user.getEmail());
 //		driver.findElement(By.name("password")).sendKeys(user.getPassword());
 //		driver.findElement(By.name("signin")).click();
-        loginPage.open();
-        loginPage.signinWithCredentials(user.getEmail(),user.getPassword());
+        
+        authenticationWorkFlowSteps.enterEmailAndPasswordFor(user);
     }
 
     @Then("^(.*) should be given access to (?:her|his) account$")
     public void thenTheUserShouldBeGivenAccessToAccount(FrequentFlyerMember userName) {
-        homePage.open();
-        homePage.checkWelomeMessage(userName.getFirstName());
+        authenticationWorkFlowSteps.verifyWelcomeMessageFor(userName);
 
 
     	//assertThat(driver.findElement(By.id("welcome-message")).getText(), equalTo("Witaj "+userName.getFirstName()));
@@ -50,8 +54,7 @@ public class UserAuthenticationSteps {
 
     @Given("^(.*) has logged on$")
     public void aUserHasLoggedOnAs(FrequentFlyerMember user) {
-        loginPage.open();
-        loginPage.signinWithCredentials(user.getEmail(),user.getPassword());
+        authenticationWorkFlowSteps.enterEmailAndPasswordFor(user);
 
 //    	driver.get("http://localhost:8080/#/welcome");
 //    	driver.findElement(By.name("email")).sendKeys(user.getEmail());

@@ -14,7 +14,7 @@ public class HomePage extends PageObject {
     @FindBy(id="welcome-message")
     private WebElement message;
 
-    public void checkWelomeMessage(String firstName){
-        assertThat(message.getText(),equalTo("Witaj "+firstName));
+    public String getWelcomeMessage(){
+        return message.getText();
     }
 }
