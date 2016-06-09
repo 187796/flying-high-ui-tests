@@ -8,7 +8,7 @@ import org.openqa.selenium.WebElement;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
-@DefaultUrl("http://localhost:8080/#/welcome")
+@DefaultUrl("http://localhost:8080/#/home")
 public class HomePage extends PageObject {
 
     @FindBy(id="welcome-message")
